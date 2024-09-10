@@ -498,10 +498,22 @@ class Editor(QMainWindow):
             action.setIcon(QIcon(self.get_resource_path(f'icons/{icon_name}{icon_suffix}.png')))
 
     def openReadme(self):
-        readme_path = self.get_resource_path(os.path.join('resources', 'README.md'))
+        readme_path = self.get_resource_path(os.path.join('resources', 'README.txt'))
         if os.path.exists(readme_path):
-            with open(readme_path, 'r') as file:
-                content = file.read()
+            try:
+                # Try UTF-8 encoding first
+                with open(readme_path, 'r', encoding='utf-8') as file:
+                    content = file.read()
+            except UnicodeDecodeError:
+                try:
+                    # If UTF-8 fails, try UTF-16
+                    with open(readme_path, 'r', encoding='utf-16') as file:
+                        content = file.read()
+                except UnicodeDecodeError:
+                    # If both fail, use latin-1 which should read all bytes
+                    with open(readme_path, 'r', encoding='latin-1') as file:
+                        content = file.read()
+            
             dlg = QDialog(self)
             dlg.setWindowTitle("README")
             layout = QVBoxLayout()
@@ -514,7 +526,6 @@ class Editor(QMainWindow):
             dlg.exec_()
         else:
             QMessageBox.warning(self, "Error", "README file not found.")
-
     def openFile(self):
         fname, _ = QFileDialog.getOpenFileName(self, 'Open file', '/', "Rich Text Files (*.rtf);;Word Documents (*.docx);;All Files (*)")
         if fname:
