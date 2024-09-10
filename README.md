@@ -13,6 +13,6 @@ First-Time Setup:
 
 Subsequent Uses:
 
-- To start the program after the initial setup, simply double-click on "start_openopen.bat"
+- To start the program after the initial setup, simply double-click on "OpenOPen.bat" or use the double-click the created Shortcut
 
 If you have any issues, please contact mcquaya-dev@gmail.com.
