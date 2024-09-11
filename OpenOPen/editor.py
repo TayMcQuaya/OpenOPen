@@ -169,9 +169,27 @@ class Editor(QMainWindow):
         layout.addWidget(self.textEdit)
 
     def setWindowProperties(self):
-        self.setWindowTitle('OpenOPen (v.1.0.0)')
-        self.setWindowIcon(QIcon('icons/app_icon.png'))
-        self.setGeometry(500, 100, 1750, 1200)
+        self.setWindowTitle(WINDOW_TITLE)
+        icon_path = self.get_resource_path(ICON_PATH)
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
+
+        #QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+        #QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+
+        screen = QApplication.primaryScreen()
+        screen_geometry = screen.availableGeometry()
+        screen_dpi = screen.logicalDotsPerInch() / 96.0
+
+        window_width = int(screen_geometry.width() * 0.9 * (1.0 / screen_dpi))
+        window_height = int(screen_geometry.height() * 0.8 * (1.0 / screen_dpi))
+
+        self.setGeometry(
+            (screen_geometry.width() - window_width) // 2,
+            (screen_geometry.height() - window_height) // 2,
+            window_width,
+            window_height
+        )
 
     def setupActions(self):
         self.openAction = QAction(QIcon(self.get_resource_path('icons/open.png')), 'Open', self)
@@ -258,6 +276,12 @@ class Editor(QMainWindow):
 
     def setupMenus(self):
         menubar = self.menuBar()
+        menubar.setBaseSize(QSize(60, 60))
+        
+        font = QFont()
+        font.setPointSize(14)  
+        self.menuBar().setFont(font)
+
         menubar.setContextMenuPolicy(Qt.CustomContextMenu)
         menubar.customContextMenuRequested.connect(self.showMenuBarContextMenu)
 
@@ -331,13 +355,15 @@ class Editor(QMainWindow):
     def setupFontControls(self):
         self.fontFamily = QFontComboBox(self)
         self.fontFamily.setCurrentFont(QFont("Times New Roman"))
+        self.fontFamily.setStyleSheet("font-size: 14pt;")
         self.fontFamily.setFixedSize(200, 40)
         self.fontFamily.currentFontChanged.connect(self.setFontFamily)
         self.toolbar.addWidget(self.fontFamily)
 
         self.fontSize = QComboBox(self)
         self.fontSize.addItems([str(i) for i in range(8, 73, 2)])
-        self.fontSize.setCurrentText('12')
+        self.fontSize.setStyleSheet("font-size: 14pt;")
+        self.fontSize.setCurrentText('16')
         self.fontSize.setFixedSize(70, 40)
         self.fontSize.currentTextChanged.connect(self.setFontSize)
         self.toolbar.addWidget(self.fontSize)
@@ -345,7 +371,7 @@ class Editor(QMainWindow):
     def setupZoomLabel(self):
         self.toolbar.addAction(self.zoomOutAction)
         self.zoomLabel = QLabel("100%")
-        self.zoomLabel.setStyleSheet("font-weight: bold;font-size: 10pt;")
+        self.zoomLabel.setStyleSheet("font-weight: bold;font-size: 14pt;")
         self.toolbar.addWidget(self.zoomLabel)
         self.toolbar.addAction(self.zoomInAction)
 
@@ -476,7 +502,7 @@ class Editor(QMainWindow):
         menubar_palette.setColor(QPalette.ButtonText, Qt.white if self.dark_mode else Qt.black)
         menubar.setPalette(menubar_palette)
         
-        self.zoomLabel.setStyleSheet(f"font-weight: bold; color: {'white' if self.dark_mode else 'black'};font-size: 10pt;")
+        self.zoomLabel.setStyleSheet(f"font-weight: bold; color: {'white' if self.dark_mode else 'black'};font-size: 14pt;")
         self.fontFamily.setStyleSheet(f"color: {'white' if self.dark_mode else 'black'};")
         self.fontSize.setStyleSheet(f"color: {'white' if self.dark_mode else 'black'};")
 

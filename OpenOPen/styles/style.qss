@@ -10,29 +10,38 @@ QTextEdit {
 }
 
 QMenuBar {
+    font-size: 14pt;
     background-color: #f8f8f8;
     border-bottom: 1px solid #e0e0e0;
 }
 
 QMenuBar::item {
-    padding: 10px 10px;
+    font-size: 14pt;
+    padding: 8px 35px 8px 15px;
+    min-width: 200px;
+    height: 35px;
 }
 
 QMenuBar::item:selected {
+    font-size: 14pt;
     background-color: #e0e0e0;
 }
 
 QMenu {
     background-color: #ffffff;
     border: 1px solid #d0d0d0;
+    
 }
 
 QMenu::item {
+    icon-size: 48px 48px;
+    font-size: 14pt;
     padding: 5px 30px 5px 10px;
-    min-width: 150px; /* Ensures minimum width for text */
+    min-width: 100px; /* Ensures minimum width for text */
 }
 
 QMenu::item:selected {
+    font-size: 14pt;
     background-color: #e0e0e0;
 }
 
@@ -70,6 +79,7 @@ QFontComboBox, QComboBox {
     border: 1px solid #c0c0c0;
     padding: 5px; /* Increased padding for larger clickable area */
     min-width: 6em;
+    font-size: 14pt;
     height: 30px; /* Increased height for better usability */
 }
 
@@ -80,6 +90,8 @@ QFontComboBox::drop-down, QComboBox::drop-down {
     border-left-width: 1px;
     border-left-color: #c0c0c0;
     border-left-style: solid;
+    font-size: 14pt;
+    
 }
 
 QPushButton {
