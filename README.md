@@ -1,4 +1,4 @@
-# Open-O-Pen
+# OpenOPen
 
 The program is free to use for everyone and will always be free.
 
